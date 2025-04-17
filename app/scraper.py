@@ -1,6 +1,7 @@
 import requests, random, json, os
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
+from .firebase_util import send_push_notification
 
 CACHE_FILE = "cached_news.json"
 CACHE_EXPIRY_HOURS = 24
@@ -91,20 +92,44 @@ def remove_duplicates(articles):
 
 
 def fetch_and_cache_news():
-    """ Function to cache scraped news. """
-    articles = get_happy_news() + get_positive_news() + get_optimist_daily()
-    articles = remove_duplicates(articles)
-    random.shuffle(articles)
+    """Fetches new headlines, compares them to the cache, sends push if changed, and updates cache."""
+    new_articles = get_happy_news() + get_positive_news() + get_optimist_daily()
+    new_articles = remove_duplicates(new_articles)
+    random.shuffle(new_articles)
 
+    # Load cached articles if present
+    cached_articles = []
+    if os.path.exists(CACHE_FILE):
+        with open(CACHE_FILE, "r") as f:
+            try:
+                cached_data = json.load(f)
+                cached_articles = cached_data["articles"]
+            except:
+                pass
+
+    # Compare and push if the articles changed
+    if new_articles != cached_articles:
+        print("New headlines detected — sending push.")
+        try:
+            send_push_notification(
+                "🌞 Here's some good news!",
+                new_articles[0]["headline"]
+            )
+        except Exception as e:
+            print(f"❌ Failed to send push notification: {e}")
+    else:
+        print("Headlines unchanged — no push sent.")
+
+    # Update the cache regardless
     data = {
         "timestamp": datetime.utcnow().isoformat(),
-        "articles": articles
+        "articles": new_articles
     }
 
     with open(CACHE_FILE, "w") as f:
         json.dump(data, f)
 
-    return articles
+    return new_articles
 
 
 
