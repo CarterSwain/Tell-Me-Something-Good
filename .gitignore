@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Caching
+cached_news.json
+
+# Virtual environment
+venv/
+
+# Environment variables
+.env
+
+# Log files
+*.log
+
+# MacOS metadata
+.DS_Store
+
+# VSCode / IDE settings (optional)
+.vscode/
+.idea/
+
+# Pytest / test cache
+.pytest_cache/
