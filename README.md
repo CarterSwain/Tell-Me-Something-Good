@@ -42,8 +42,8 @@ To reduce unnecessary scraping, results are cached in a local JSON file and only
 ## 🧪 Example API Call
 
 ```http
-GET /api/news?limit=5
-
+GET /api/news?limit=5 
+```
 
 ---
 
@@ -56,9 +56,9 @@ GET /api/news?limit=5
     "link": "https://www.goodnewsnetwork.org/zoo-camera-captures-elephants-protecting-their-young-during-san-diego-earthquake-watch/",
     "source": "Good News Network",
     "summary": null
-  },
-  ...
+  }
 ]
+```
 
 ---
 
@@ -106,8 +106,8 @@ http://localhost:5000/api/news
 
 ### Sources:
 
-Good News Network (https://www.goodnewsnetwork.org/)
+Good News Network ( https://www.goodnewsnetwork.org/ )
 
-Positive News (https://www.positive.news/)
+Positive News ( https://www.positive.news/ )
 
-The Optimist Daily (https://www.optimistdaily.com/)
+The Optimist Daily ( https://www.optimistdaily.com/ )
