@@ -1,18 +1,25 @@
-import firebase_admin
-from firebase_admin import credentials, messaging
+# firebase_util.py (now just handles Expo pushes)
 
-# Initialize the app with your service account
-cred = credentials.Certificate("service_account_key.json")  
-firebase_admin.initialize_app(cred)
+import requests
 
-def send_push_notification(title, body):
-    message = messaging.Message(
-        notification=messaging.Notification(
-            title=title,
-            body=body,
-        ),
-        topic='happy-news'  # All mobile clients will subscribe to this
-    )
-    response = messaging.send(message)
-    print("Push sent! Response:", response)
-    return response
+EXPO_PUSH_URL = "https://exp.host/--/api/v2/push/send"
+
+def send_push_notification(title, body, expo_token):
+    payload = {
+        "to": expo_token,
+        "title": title,
+        "body": body,
+        "sound": "default"
+    }
+
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post(EXPO_PUSH_URL, json=payload, headers=headers)
+
+    if response.status_code != 200:
+        raise Exception(f"Expo push error: {response.text}")
+
+    print("✅ Expo Push sent! Response:", response.json())
+    return response.json()
