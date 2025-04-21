@@ -27,3 +27,7 @@ service_account_key.json
 
 # Pytest / test cache
 .pytest_cache/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
