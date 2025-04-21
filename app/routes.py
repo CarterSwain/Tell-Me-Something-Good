@@ -76,7 +76,7 @@ def send_push():
 def broadcast_push():
     """Send a push notification to all registered Expo tokens."""
     data = request.json
-    title = data.get("title", "📰 Daily Good News!")
+    title = data.get("title", "🌈 Your Daily Good News is Here!")
     body = data.get("body", "Something good just happened!")
 
     tokens = PushToken.query.all()

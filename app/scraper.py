@@ -2,6 +2,9 @@ import requests, random, json, os
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from .firebase_util import send_push_notification
+from app.models import PushToken
+from app import db
+
 
 CACHE_FILE = "cached_news.json"
 CACHE_EXPIRY_HOURS = 24
@@ -91,13 +94,15 @@ def remove_duplicates(articles):
 
 
 
-def fetch_and_cache_news():
-    """Fetches new headlines, compares them to the cache, sends push if changed, and updates cache."""
+def fetch_and_cache_news(title=None, body=None):
+    """
+    Fetches new headlines, compares to cache, sends a push notification 
+    (with custom title/body) if headlines have changed, and updates the cache.
+    """
     new_articles = get_happy_news() + get_positive_news() + get_optimist_daily()
     new_articles = remove_duplicates(new_articles)
     random.shuffle(new_articles)
 
-    # Load cached articles if present
     cached_articles = []
     if os.path.exists(CACHE_FILE):
         with open(CACHE_FILE, "r") as f:
@@ -111,25 +116,29 @@ def fetch_and_cache_news():
     if new_articles != cached_articles:
         print("New headlines detected — sending push.")
         try:
-            send_push_notification(
-                "🌞 Here's some good news!",
-                new_articles[0]["headline"]
-            )
+            tokens = PushToken.query.all()
+            for t in tokens:
+                response = send_push_notification(
+                   title or "🌞 Here's some good news!",
+                   body or new_articles[0]["headline"],
+                   t.token
+                )
+                print(f"✅ Push sent to {t.token} | Expo Response: {response}")
         except Exception as e:
             print(f"❌ Failed to send push notification: {e}")
     else:
         print("Headlines unchanged — no push sent.")
 
-    # Update the cache regardless
-    data = {
-        "timestamp": datetime.utcnow().isoformat(),
-        "articles": new_articles
-    }
 
+    # Update cache
     with open(CACHE_FILE, "w") as f:
-        json.dump(data, f)
+        json.dump({
+            "timestamp": datetime.utcnow().isoformat(),
+            "articles": new_articles
+        }, f)
 
     return new_articles
+
 
 
 
