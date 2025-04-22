@@ -24,12 +24,14 @@ googleapis-common-protos==1.70.0
 greenlet==3.2.0
 grpcio==1.71.0
 grpcio-status==1.71.0
+gunicorn==23.0.0
 httplib2==0.22.0
 idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.6
 MarkupSafe==3.0.2
 msgpack==1.1.0
+packaging==25.0
 proto-plus==1.26.1
 protobuf==5.29.4
 psycopg2-binary==2.9.10
@@ -47,4 +49,3 @@ typing_extensions==4.13.2
 uritemplate==4.1.1
 urllib3==2.4.0
 Werkzeug==3.1.3
-python-dotenv==1.1.0

@@ -3,17 +3,17 @@ __pycache__/
 *.py[cod]
 *.so
 
-# Caching and local data
-cached_news.json
-*.cache
-
-# Virtual environments
+# Virtual environment
 venv/
 .env
 
+# Cache and local data
+*.cache
+cached_news.json
+cache.log
+
 # Log files
 *.log
-cache.log
 
 # Firebase credentials
 service_account_key.json
@@ -21,13 +21,18 @@ service_account_key.json
 # macOS system files
 .DS_Store
 
-# VSCode / IDE settings
+# IDE settings
 .vscode/
 .idea/
 
-# Pytest / test cache
+# Pytest cache
 .pytest_cache/
 
-# Python bytecode
-__pycache__/
-*.py[cod]
+# Python egg files
+*.egg
+*.egg-info/
+
+# Build artifacts
+build/
+dist/
+*.spec
