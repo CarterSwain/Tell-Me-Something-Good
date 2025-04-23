@@ -4,6 +4,12 @@ A feel-good Python/Flask API that scrapes heartwarming headlines from multiple p
 
 Designed to power a mobile app that delivers a daily boost of joy — complete with randomized stories, caching, and push notification support.
 
+
+## Deployed @:
+
+**Backend URL:**  
+👉 https://tell-me-something-good.fly.dev/api/news
+
 ---
 
 ## Features
@@ -21,7 +27,8 @@ Designed to power a mobile app that delivers a daily boost of joy — complete w
 
 The backend scrapes stories using BeautifulSoup, merges and deduplicates them, then returns a fresh mix of headlines via a `/api/news` endpoint.
 
-To reduce unnecessary scraping, results are cached in a local JSON file and only refreshed once every 24 hours.
+Cached results are stored in a JSON file and refreshed every 24 hours using a cron job.
+
 
 ---
 
@@ -31,11 +38,11 @@ To reduce unnecessary scraping, results are cached in a local JSON file and only
 |--------------|-----------------------------------|
 | Backend      | Python, Flask, BeautifulSoup      |
 | Scraping     | BeautifulSoup                     |
-| Scheduling   | Cron Job or APScheduler (coming)  |
-| Frontend     | React Native (coming)             |
-| Notifications| Firebase Cloud Messaging (coming) |
-| Database     | SQLite or PostgreSQL (planned)    |
-| Deployment   | AWS / GCP (planned)               |
+| Scheduling   | Cron Job or APScheduler           |
+| Frontend     | React Native (coming soon)        |
+| Notifications| Expo Push API (in progress)       |
+| Database     | PostgreSQL                        |
+| Deployment   | Fly.io                            |
 
 ---
 
@@ -93,14 +100,7 @@ http://localhost:5000/api/news
 
 - React Native frontend with a swipeable list of stories
 
-- Push notifications with Firebase Admin SDK
-
-- "Save to Favorites" feature
-
-- Optional OpenAI-powered article summaries
-
-- SQLite/Postgres integration for scaling
-
+- Expo Push notifications
 
 --- 
 
